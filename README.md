@@ -48,7 +48,7 @@ In this video, it only used P-Controller with tau_p = 0.45832 to control the ste
 
 #### 2. PD-Controller : Steering in proportion to the cte and derivatives of the cte errors 
 
-In this video, it only used PD-Controller with tau_p = 0.45832 and tau_d = 2.61739 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte but reduce the error and avoid over-shooting of the steering adjustment.  
+In this video, it only used PD-Controller with tau_p = 0.45832 and tau_d = 2.61739 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte but reduces the error and avoids over-shooting of the steering adjustment.  
 
 <a href="https://www.youtube.com/watch?v=URwPJn-I9vE&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/URwPJn-I9vE/0.jpg" alt="PD Controller"/></a>
 
