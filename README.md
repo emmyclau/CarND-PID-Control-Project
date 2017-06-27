@@ -50,7 +50,7 @@ The hyperparameters were tuned iteratively using the Twiddle method:
 
 2. With the updates in the intial parameters, the car drove more smoothly and the sum of dp[] is lower than the threshold at p[]={ 0.596141, 0.000526023, 1.22713}.  However, when I let the car run through the course, the car drove off track in one of the turns.  Therefore, i increased the iterations to 750 and lowered the threshold to 0.03 and trained it again. 
 
-3. With a few more updates,I found that with p[] = {0.45832, 0.000802943, 2.61739} and dp[] = {0.0048779, 0.0000826086, 0.0134385}, iterations = 2000 and threshold = 0.2 allowed the car drive reasonably smoothly within the course. 
+3. With a few more updates,I found that with p[] = {0.45832, 0.000802943, 2.61739} and dp[] = {0.0048779, 0.0000826086, 0.0134385}, iterations = 2000 and threshold = 0.2 and updated the "throttle" to 0.2 allowed the car drive reasonably smoothly within the course. 
 
 
 
