@@ -42,11 +42,13 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 
 
+
+
 ### Describe how the final hyperparameters were chosen
 
 The hyperparameters were tuned iteratively using the Twiddle method:
 
-1. I first set the initial parameters p[] = {0,0,0}, dp[] = {0.1,0.1,0.1}, iterations = 100 and the threshold = 0.1.  And I found that whenever the p[1] tau for differentiated cte was not zero, the car change the orientation significantly.  So, I realized the dp[1] = 0.1 is probably to high.  After a few iterations, i updated the initial parameters p[] = {0.5,0,1.0}, dp[] = {0.1,0.001,0.1}, iterations = 200 and the threshold = 0.1.
+1. I first set the initial parameters p[] = {0,0,0}, dp[] = {0.1,0.1,0.1}, iterations = 100 and the threshold = 0.1.  And I found that whenever the p[1] tau for integrated cte was not zero, the car change the orientation significantly.  So, I realized the dp[1] = 0.1 is probably to high.  After a few iterations, i updated the initial parameters p[] = {0.5,0,1.0}, dp[] = {0.1,0.001,0.1}, iterations = 200 and the threshold = 0.1.
 
 2. With the updates in the intial parameters, the car drove more smoothly and the sum of dp[] is lower than the threshold at p[]={ 0.596141, 0.000526023, 1.22713}.  However, when I let the car run through the course, the car drove off track in one of the turns.  Therefore, i increased the iterations to 750 and lowered the threshold to 0.03 and trained it again. 
 
