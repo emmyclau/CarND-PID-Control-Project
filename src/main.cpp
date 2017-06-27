@@ -33,9 +33,24 @@ int main()
   uWS::Hub h;
 
   PID pid;
+  
+    
   // TODO: Initialize the pid variable.
+    double p[] = {0.45832, 0.000802943, 2.61739};
+    double dp[] = {0.0048779, 0.0000826086, 0.0134385};
+    bool tuned_p = FALSE;
+    
+    int iteration = 0;
+    int state = 0;
+    int index = 0;
+    double error = 0;
+    double best_error = 0;
+    int n = 2000;
 
-  h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+    
+    pid.Init(p[0], p[1], p[2]);
+    
+    h.onMessage([&pid, &p, &dp, &tuned_p, &iteration, &state, &index, &error, &best_error, &n](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -51,21 +66,123 @@ int main()
           double speed = std::stod(j[1]["speed"].get<std::string>());
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
-          /*
+          
+         /*
           * TODO: Calcuate steering value here, remember the steering value is
           * [-1, 1].
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
           
+          // train the PID parameters
+            iteration++;
+            
+            if (!tuned_p && (iteration >= 2 * n)) {
+
+                iteration = 0;
+                error = error / n;
+
+                if (best_error == 0) {
+                    
+                    best_error = error;
+                    p[index] += dp[index];
+                    
+                } else {
+
+                    
+                    if ((index == 0) && (dp[0] + dp[1] + dp[2]) < 0.02) {
+                        
+                        tuned_p = TRUE;
+                        
+                        //pid.Init(final_p[0], final_p[1], final_p[2]);
+                        pid.Init(p[0], p[1], p[2]);
+                        
+                        
+                        std::cout << "FOUND --> p[0] >> " << p[0] << ", p[1] >> " << p[1] << ", p[2] >> " << p[2] << ", best_error >> " << best_error << std::endl;
+                        
+                    } else {
+                        
+                        if ((state != 1) && error < best_error) {
+                        
+                            best_error = error;
+                            dp[index] *= 1.1;
+                            
+                            index = (index + 1) % 3;
+                            p[index] += dp[index];
+                            
+                            state = 0;
+                            
+                        } else {
+                        
+                            if (state != 1) {
+                                
+                                p[index] -= 2 * dp[index];
+                                state = 1;
+                                
+                            } else {
+                            
+                                
+                                if (error < best_error) {
+                                    best_error = error;
+                                    dp[index] *= 1.1;
+                                    
+                                } else {
+                                    p[index] += dp[index];
+                                    dp[index] *= 0.9;
+                                }
+                                
+                                index = (index + 1) % 3;
+                                p[index] += dp[index];
+                                state = 0;
+                            }
+                            
+                        }
+                        
+                        pid.Init(p[0], p[1], p[2]);
+                    
+                    }
+                }
+                
+                
+                iteration = 0;
+                error = 0;
+            
+                std::cout << "p[0] >> " << p[0] << ", p[1] >> " << p[1] << ", p[2] >> " << p[2] << ", best_error >> " << best_error << std::endl;
+                
+                std::cout << "dp[0] >> " << dp[0] << ", dp[1] >> " << dp[1] << ", dp[2] >> " << dp[2] << ", sum >> "  << (dp[0] + dp[1] + dp[2]) << std::endl;
+                
+                std::string reset_msg = "42[\"reset\", {}]";
+                ws.send(reset_msg.data(), reset_msg.length(), uWS::OpCode::TEXT);
+                
+                // reset steering angle and throttle
+                json msgJson;
+                msgJson["steering_angle"] = 0.0;
+                msgJson["throttle"] = 0.2;
+                auto msg = "42[\"steer\"," + msgJson.dump() + "]";
+                //std::cout << msg << std::endl;
+                ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+
+            }
+            
+            pid.UpdateError(cte);
+            steer_value = pid.TotalError();
+
+            if (iteration > n) {
+                error += cte * cte;
+            }
+            
+            if (steer_value > 1) steer_value = 1;
+            if (steer_value < -1) steer_value = -1;
+            
+            
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          //std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = 0.2;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          std::cout << msg << std::endl;
+          //std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {
