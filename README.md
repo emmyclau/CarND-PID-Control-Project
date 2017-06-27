@@ -43,12 +43,14 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 In this video, it only used P-Controller with tau_p = 0.45832 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte and oscillates around the lane line and often times it over-shoots for the correction.  
 
-<a href="https://www.youtube.com/watch?v=l11zHNOlHg4&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/l11zHNOlHg4/0.jpg" alt="Advanced Lane Lines Detection"/></a>
+<a href="https://www.youtube.com/watch?v=l11zHNOlHg4&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/l11zHNOlHg4/0.jpg" alt="P Controller"/></a>
 
 
 #### 2. PD-Controller : Steering in proportion to the cte and derivatives of the cte errors 
 
 In this video, it only used PD-Controller with tau_p = 0.45832 and tau_d = 2.61739 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte but reduce the error and avoid over-shooting of the steering adjustment.  
+
+<a href="https://www.youtube.com/watch?v=URwPJn-I9vE&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/URwPJn-I9vE/0.jpg" alt="PD Controller"/></a>
 
 
 
@@ -57,7 +59,7 @@ In this video, it only used PD-Controller with tau_p = 0.45832 and tau_d = 2.617
 
 In this video, it used PID-Controller with tau_p = 0.45832 and tau_d = 2.61739 and tau_i = 0.000802943 to control the steering of the car to adjust for the drifting effect.  But since the tau_i is so small, the effect of it is not obvious. 
 
-
+<a href="https://www.youtube.com/watch?v=elYyhijNusw&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/elYyhijNusw/0.jpg" alt="PID Controller"/></a>
 
 
 ### Describe how the final hyperparameters were chosen
