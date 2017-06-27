@@ -39,21 +39,21 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 ### Describe the effect each of the P, I, D components had in your implementation
 
-#### P-Controller : Steering in proportion to the cte (cross track error)
+#### 1. P-Controller : Steering in proportion to the cte (cross track error)
 
 In this video, it only used P-Controller with tau_p = 0.45832 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte and oscillates around the lane line and often times it over-shoots for the correction.  
 
 
 
 
-#### PD-Controller : Steering in proportion to the cte and derivatives of the cte errors 
+#### 2. PD-Controller : Steering in proportion to the cte and derivatives of the cte errors 
 
 In this video, it only used PD-Controller with tau_p = 0.45832 and tau_d = 2.61739 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte but reduce the error and avoid over-shooting of the steering adjustment.  
 
 
 
 
-#### PID-Controller : Steering in proportion to the cte and derivatives of the cte errors and integrals of cte errors
+#### 3. PID-Controller : Steering in proportion to the cte and derivatives of the cte errors and integrals of cte errors
 
 In this video, it used PID-Controller with tau_p = 0.45832 and tau_d = 2.61739 and tau_i = 0.000802943 to control the steering of the car to adjust for the drifting effect.  But since the tau_i is so small, the effect of it is not obvious. 
 
