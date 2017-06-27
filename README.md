@@ -43,7 +43,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 In this video, it only used P-Controller with tau_p = 0.45832 to control the steering of the car.  You can see that the car adjusts the steering in proportion to the cte and oscillates around the lane line and often times it over-shoots for the correction.  
 
-
+<a href="https://www.youtube.com/watch?v=l11zHNOlHg4&feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/l11zHNOlHg4/0.jpg" alt="Advanced Lane Lines Detection"/></a>
 
 
 #### 2. PD-Controller : Steering in proportion to the cte and derivatives of the cte errors 
